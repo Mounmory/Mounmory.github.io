@@ -1,0 +1,165 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>使用 template 关键字来显式标记模板成员函数 | Mounmory</title><meta name="author" content="Mounmory"><meta name="copyright" content="Mounmory"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="1、问题​    前段时间写了一段关于模板的代码，大概情形是这样的：​    定义一个非模板类A，有一个模板函数，又定义了一个模板类B，B中也定义了一个模板函数。将A作为B的模板参数进行实例化，在B的模板函数中调用A的模板函数。​    在ubuntu18.04中编译（GCC 7.5.0）报错，尝试在ubuntu20.04编译，依然报错。（在VS2015、VS2019编译都没问题，ubuntu16">
+<meta property="og:type" content="article">
+<meta property="og:title" content="使用 template 关键字来显式标记模板成员函数">
+<meta property="og:url" content="https://mounmory.github.io/C++%E7%AC%94%E8%AE%B0_%E4%BD%BF%E7%94%A8%20template%20%E5%85%B3%E9%94%AE%E5%AD%97%E6%9D%A5%E6%98%BE%E5%BC%8F%E6%A0%87%E8%AE%B0%E6%A8%A1%E6%9D%BF%E6%88%90%E5%91%98%E5%87%BD%E6%95%B0/index.html">
+<meta property="og:site_name" content="Mounmory">
+<meta property="og:description" content="1、问题​    前段时间写了一段关于模板的代码，大概情形是这样的：​    定义一个非模板类A，有一个模板函数，又定义了一个模板类B，B中也定义了一个模板函数。将A作为B的模板参数进行实例化，在B的模板函数中调用A的模板函数。​    在ubuntu18.04中编译（GCC 7.5.0）报错，尝试在ubuntu20.04编译，依然报错。（在VS2015、VS2019编译都没问题，ubuntu16">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://mounmory.github.io/img/postcover/83827085.jpg">
+<meta property="article:published_time" content="2025-03-19T12:20:12.000Z">
+<meta property="article:modified_time" content="2025-03-20T07:04:31.771Z">
+<meta property="article:author" content="Mounmory">
+<meta property="article:tag" content="模板">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://mounmory.github.io/img/postcover/83827085.jpg"><link rel="shortcut icon" href="/img/headpicture.png"><link rel="canonical" href="https://mounmory.github.io/C++%E7%AC%94%E8%AE%B0_%E4%BD%BF%E7%94%A8%20template%20%E5%85%B3%E9%94%AE%E5%AD%97%E6%9D%A5%E6%98%BE%E5%BC%8F%E6%A0%87%E8%AE%B0%E6%A8%A1%E6%9D%BF%E6%88%90%E5%91%98%E5%87%BD%E6%95%B0/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css?v=4.13.0"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.5.1/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0.33/dist/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":false,"top_n_per_article":1,"unescape":false,"languages":{"hits_empty":"找不到您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":200},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: true,
+    post: true
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid@4.11.1/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '使用 template 关键字来显式标记模板成员函数',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2025-03-20 15:04:31'
+}</script><script>(win=>{
+      win.saveToLocal = {
+        set: (key, value, ttl) => {
+          if (ttl === 0) return
+          const now = Date.now()
+          const expiry = now + ttl * 86400000
+          const item = {
+            value,
+            expiry
+          }
+          localStorage.setItem(key, JSON.stringify(item))
+        },
+      
+        get: key => {
+          const itemStr = localStorage.getItem(key)
+      
+          if (!itemStr) {
+            return undefined
+          }
+          const item = JSON.parse(itemStr)
+          const now = Date.now()
+      
+          if (now > item.expiry) {
+            localStorage.removeItem(key)
+            return undefined
+          }
+          return item.value
+        }
+      }
+    
+      win.getScript = (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        script.onerror = reject
+        script.onload = script.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          script.onload = script.onreadystatechange = null
+          resolve()
+        }
+
+        Object.keys(attr).forEach(key => {
+          script.setAttribute(key, attr[key])
+        })
+
+        document.head.appendChild(script)
+      })
+    
+      win.getCSS = (url, id = false) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onerror = reject
+        link.onload = link.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          link.onload = link.onreadystatechange = null
+          resolve()
+        }
+        document.head.appendChild(link)
+      })
+    
+      win.activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+        if (t === 'dark') activateDarkMode()
+        else if (t === 'light') activateLightMode()
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+      const detectApple = () => {
+        if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+          document.documentElement.classList.add('apple')
+        }
+      }
+      detectApple()
+    })(window)</script><meta name="generator" content="Hexo 7.3.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/img/headpicture.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">7</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">6</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">6</div></a></div><hr class="custom-hr"/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg fixed" id="page-header" style="background-image: url('/img/postcover/83827085.jpg')"><nav id="nav"><span id="blog-info"><a href="/" title="Mounmory"><span class="site-name">Mounmory</span></a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search" href="javascript:void(0);"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">使用 template 关键字来显式标记模板成员函数</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2025-03-19T12:20:12.000Z" title="发表于 2025-03-19 20:20:12">2025-03-19</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2025-03-20T07:04:31.771Z" title="更新于 2025-03-20 15:04:31">2025-03-20</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/C-%E7%AC%94%E8%AE%B0/">C++笔记</a><i class="fas fa-angle-right post-meta-separator"></i><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/C-%E7%AC%94%E8%AE%B0/%E6%A8%A1%E6%9D%BF/">模板</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="使用 template 关键字来显式标记模板成员函数"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h1 id="1、问题"><a href="#1、问题" class="headerlink" title="1、问题"></a>1、问题</h1><p>​    前段时间写了一段关于模板的代码，大概情形是这样的：<br>​    定义一个<code>非模板类A</code>，有一个<code>模板函数</code>，又定义了一个<code>模板类B</code>，B中也定义了一个<code>模板函数</code>。将A作为B的模板参数进行实例化，在B的模板函数中调用A的模板函数。<br>​    在ubuntu18.04中编译（GCC 7.5.0）报错，尝试在ubuntu20.04编译，依然报错。（在VS2015、VS2019编译都没问题，ubuntu16.04中的GCC 5.4.0也没问题）<br><img src="https://i-blog.csdnimg.cn/direct/11bd963dfb434474813c5093441e54e2.png" alt="GCC编译报错"></p>
+<h1 id="2、问题分析"><a href="#2、问题分析" class="headerlink" title="2、问题分析"></a>2、问题分析</h1><p>​    模板在实例化时，没有识别调用的A函数也模板函数，认为函数模板参数字符<T>非法。</p>
+<h1 id="3、解决方法"><a href="#3、解决方法" class="headerlink" title="3、解决方法"></a>3、解决方法</h1><p>​    需要使用 template 关键字来显式标记模板成员函数，见完整代码。<br>​    在类B的Get函数中，显式的标记模板函数<code>a_instance.template Get&lt;T&gt;()</code>，而不是直接调用<code>a_instance.Get&lt;T&gt;()</code>。</p>
+<h1 id="4、完整代码"><a href="#4、完整代码" class="headerlink" title="4、完整代码"></a>4、完整代码</h1><p>​    完整代码如下：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;string&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 类A的定义</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">A</span> &#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line"></span><br><span class="line">	<span class="comment">// 模板成员函数</span></span><br><span class="line">	<span class="function"><span class="keyword">template</span>&lt;<span class="keyword">typename</span> T&gt;</span></span><br><span class="line"><span class="function">	<span class="type">void</span> <span class="title">Set</span><span class="params">(T value)</span> </span>&#123;</span><br><span class="line">		std::cout &lt;&lt; <span class="string">&quot;A::Set called with value: &quot;</span> &lt;&lt; value &lt;&lt; std::endl;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="comment">// 模板成员函数，返回一个默认构造的T</span></span><br><span class="line">	<span class="function"><span class="keyword">template</span>&lt;<span class="keyword">typename</span> T&gt;</span></span><br><span class="line"><span class="function">	T <span class="title">Get</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		std::cout &lt;&lt; <span class="string">&quot;A::Get called, returning default-constructed T&quot;</span> &lt;&lt; std::endl;</span><br><span class="line">		<span class="keyword">return</span> <span class="built_in">T</span>();</span><br><span class="line">	&#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 模板类B的定义</span></span><br><span class="line"><span class="keyword">template</span>&lt;<span class="keyword">typename</span> TA&gt;</span><br><span class="line"><span class="keyword">class</span> <span class="title class_">B</span> &#123;</span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">	TA a_instance; <span class="comment">// A的实例作为B的成员</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">	<span class="comment">// 模板成员函数</span></span><br><span class="line">	<span class="function"><span class="keyword">template</span>&lt;<span class="keyword">typename</span> T&gt;</span></span><br><span class="line"><span class="function">	<span class="type">void</span> <span class="title">Set</span><span class="params">(T value)</span> </span></span><br><span class="line"><span class="function">	</span>&#123;</span><br><span class="line">		std::cout &lt;&lt; <span class="string">&quot;B::Set called with value: &quot;</span> &lt;&lt; value &lt;&lt; std::endl;</span><br><span class="line">		a_instance.<span class="built_in">Set</span>(value);</span><br><span class="line">		<span class="comment">//a_instance.Set&lt;T&gt;(value);//在GCC 7.5.0 及以上版本编译失败</span></span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="comment">// 模板成员函数，返回一个默认构造的T</span></span><br><span class="line">	<span class="function"><span class="keyword">template</span>&lt;<span class="keyword">typename</span> T&gt;</span></span><br><span class="line"><span class="function">	T <span class="title">Get</span><span class="params">()</span> </span></span><br><span class="line"><span class="function">	</span>&#123;</span><br><span class="line">		std::cout &lt;&lt; <span class="string">&quot;B::Get called, calling A::funcA and returning its result&quot;</span> &lt;&lt; std::endl;</span><br><span class="line">		<span class="comment">// 调用A的模板成员函数并返回其结果</span></span><br><span class="line">		<span class="keyword">return</span> a_instance.<span class="keyword">template</span> <span class="built_in">Get</span>&lt;T&gt;();</span><br><span class="line">		<span class="comment">//以下代码在GCC 7.5.0 及以上版本编译失败</span></span><br><span class="line">		<span class="comment">//return a_instance.Get&lt;T&gt;();</span></span><br><span class="line">	&#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">	<span class="comment">// 创建B&lt;A&gt;的对象，即B的模板参数为A</span></span><br><span class="line">	B&lt;A&gt; b;</span><br><span class="line"></span><br><span class="line">	<span class="type">int</span> int_value = b.<span class="built_in">Get</span>&lt;<span class="type">int</span>&gt;();</span><br><span class="line"></span><br><span class="line">	std::string strSet = <span class="string">&quot;set string&quot;</span>;</span><br><span class="line">	b.<span class="built_in">Set</span>&lt;std::string&gt;(strSet);</span><br><span class="line"></span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>​    在B::Set函数中，调用“a_instance.Set(value)”，不用显式的指定模板参数，因为A中Set接口通过入参，可以推导出模板类型，A中Get形参为空，因此不能推导出模板类型。</p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="https://Mounmory.github.io">Mounmory</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="https://mounmory.github.io/C++%E7%AC%94%E8%AE%B0_%E4%BD%BF%E7%94%A8%20template%20%E5%85%B3%E9%94%AE%E5%AD%97%E6%9D%A5%E6%98%BE%E5%BC%8F%E6%A0%87%E8%AE%B0%E6%A8%A1%E6%9D%BF%E6%88%90%E5%91%98%E5%87%BD%E6%95%B0/">https://mounmory.github.io/C++%E7%AC%94%E8%AE%B0_%E4%BD%BF%E7%94%A8%20template%20%E5%85%B3%E9%94%AE%E5%AD%97%E6%9D%A5%E6%98%BE%E5%BC%8F%E6%A0%87%E8%AE%B0%E6%A8%A1%E6%9D%BF%E6%88%90%E5%91%98%E5%87%BD%E6%95%B0/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://Mounmory.github.io" target="_blank">Mounmory</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E6%A8%A1%E6%9D%BF/">模板</a></div><div class="post_share"><div class="social-share" data-image="/img/postcover/83827085.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/sharejs/dist/js/social-share.min.js" defer></script></div></div><div class="post-reward"><div class="reward-button"><i class="fas fa-qrcode"></i>赞助</div><div class="reward-main"><ul class="reward-all"><li class="reward-item"><a href="/img/paycode/wechat.jpg" target="_blank"><img class="post-qr-code-img" src="/img/paycode/wechat.jpg" alt="微信"/></a><div class="post-qr-code-desc">微信</div></li><li class="reward-item"><a href="/img/paycode/alipay.jpg" target="_blank"><img class="post-qr-code-img" src="/img/paycode/alipay.jpg" alt="支付宝"/></a><div class="post-qr-code-desc">支付宝</div></li></ul></div></div><nav class="pagination-post" id="pagination"><div class="next-post pull-full"><a href="/%E9%9A%8F%E7%AC%94_vscode%E8%BF%9C%E7%A8%8B%E8%B0%83%E8%AF%95linux%E9%85%8D%E7%BD%AE/" title="vscode远程调试linux上的CMake工程"><img class="cover" src="/img/postcover/1072636472.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">vscode远程调试linux上的CMake工程</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><div><a href="/C++%E7%AC%94%E8%AE%B0_%E5%A4%9A%E6%80%81+%E6%A8%A1%E6%9D%BF%E4%BE%8B%E5%AD%90/" title="一个计算正多边形边长问题（多态+模板）"><img class="cover" src="/img/postcover/1534414543.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2024-11-14</div><div class="title">一个计算正多边形边长问题（多态+模板）</div></div></a></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="/img/headpicture.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">Mounmory</div><div class="author-info__description">学海无涯，回头是岸</div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">7</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">6</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">6</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/Mounmory"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/Mounmory" target="_blank" title="Github"><i class="fab fa-github" style="color: #24292e;"></i></a><a class="social-icon" href="mailto:237628106@gq.com" target="_blank" title="Email"><i class="fas fa-envelope" style="color: #4a7dbe;"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">安装包：
+<a target="_blank" rel="noopener" href="https://pan.baidu.com/s/1x2c97QT_bpQnTsYtokFEuA">百度云</a>
+提取码：glel
+</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#1%E3%80%81%E9%97%AE%E9%A2%98"><span class="toc-number">1.</span> <span class="toc-text">1、问题</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#2%E3%80%81%E9%97%AE%E9%A2%98%E5%88%86%E6%9E%90"><span class="toc-number">2.</span> <span class="toc-text">2、问题分析</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#3%E3%80%81%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95"><span class="toc-number">3.</span> <span class="toc-text">3、解决方法</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#4%E3%80%81%E5%AE%8C%E6%95%B4%E4%BB%A3%E7%A0%81"><span class="toc-number">4.</span> <span class="toc-text">4、完整代码</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/C++%E7%AC%94%E8%AE%B0_%E4%BD%BF%E7%94%A8%20template%20%E5%85%B3%E9%94%AE%E5%AD%97%E6%9D%A5%E6%98%BE%E5%BC%8F%E6%A0%87%E8%AE%B0%E6%A8%A1%E6%9D%BF%E6%88%90%E5%91%98%E5%87%BD%E6%95%B0/" title="使用 template 关键字来显式标记模板成员函数"><img src="/img/postcover/83827085.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="使用 template 关键字来显式标记模板成员函数"/></a><div class="content"><a class="title" href="/C++%E7%AC%94%E8%AE%B0_%E4%BD%BF%E7%94%A8%20template%20%E5%85%B3%E9%94%AE%E5%AD%97%E6%9D%A5%E6%98%BE%E5%BC%8F%E6%A0%87%E8%AE%B0%E6%A8%A1%E6%9D%BF%E6%88%90%E5%91%98%E5%87%BD%E6%95%B0/" title="使用 template 关键字来显式标记模板成员函数">使用 template 关键字来显式标记模板成员函数</a><time datetime="2025-03-19T12:20:12.000Z" title="发表于 2025-03-19 20:20:12">2025-03-19</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/%E9%9A%8F%E7%AC%94_vscode%E8%BF%9C%E7%A8%8B%E8%B0%83%E8%AF%95linux%E9%85%8D%E7%BD%AE/" title="vscode远程调试linux上的CMake工程"><img src="/img/postcover/1072636472.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="vscode远程调试linux上的CMake工程"/></a><div class="content"><a class="title" href="/%E9%9A%8F%E7%AC%94_vscode%E8%BF%9C%E7%A8%8B%E8%B0%83%E8%AF%95linux%E9%85%8D%E7%BD%AE/" title="vscode远程调试linux上的CMake工程">vscode远程调试linux上的CMake工程</a><time datetime="2025-01-23T01:22:37.000Z" title="发表于 2025-01-23 09:22:37">2025-01-23</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/%E9%9A%8F%E7%AC%94_linux%E7%B3%BB%E7%BB%9F%E5%B4%A9%E6%BA%83%E6%96%87%E4%BB%B6%E4%BA%A7%E7%94%9F%E4%B8%8E%E5%88%86%E6%9E%90/" title="linux系统崩溃文件产生与分析"><img src="/img/postcover/1072636472.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="linux系统崩溃文件产生与分析"/></a><div class="content"><a class="title" href="/%E9%9A%8F%E7%AC%94_linux%E7%B3%BB%E7%BB%9F%E5%B4%A9%E6%BA%83%E6%96%87%E4%BB%B6%E4%BA%A7%E7%94%9F%E4%B8%8E%E5%88%86%E6%9E%90/" title="linux系统崩溃文件产生与分析">linux系统崩溃文件产生与分析</a><time datetime="2025-01-12T03:43:58.000Z" title="发表于 2025-01-12 11:43:58">2025-01-12</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/C++%E7%AC%94%E8%AE%B0_%E5%A4%9A%E6%80%81+%E6%A8%A1%E6%9D%BF%E4%BE%8B%E5%AD%90/" title="一个计算正多边形边长问题（多态+模板）"><img src="/img/postcover/1534414543.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="一个计算正多边形边长问题（多态+模板）"/></a><div class="content"><a class="title" href="/C++%E7%AC%94%E8%AE%B0_%E5%A4%9A%E6%80%81+%E6%A8%A1%E6%9D%BF%E4%BE%8B%E5%AD%90/" title="一个计算正多边形边长问题（多态+模板）">一个计算正多边形边长问题（多态+模板）</a><time datetime="2024-11-14T13:33:35.000Z" title="发表于 2024-11-14 21:33:35">2024-11-14</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/ProTookit_%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/" title="Creo二次开发ProTookit安装及帮助文档配置"><img src="/img/postcover/1072636472.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Creo二次开发ProTookit安装及帮助文档配置"/></a><div class="content"><a class="title" href="/ProTookit_%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/" title="Creo二次开发ProTookit安装及帮助文档配置">Creo二次开发ProTookit安装及帮助文档配置</a><time datetime="2024-10-23T09:15:03.000Z" title="发表于 2024-10-23 17:15:03">2024-10-23</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2025 By Mounmory</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js?v=4.13.0"></script><script src="/js/main.js?v=4.13.0"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0.33/dist/fancybox/fancybox.umd.min.js"></script><div class="js-pjax"></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="is-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据库加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div id="local-search-results"></div><div id="local-search-stats-wrap"></div></div></div><div id="search-mask"></div><script src="/js/search/local-search.js?v=4.13.0"></script></div></div></body></html>
